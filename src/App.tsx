@@ -1,37 +1,16 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { Button } from 'antd';
-
-function Home() {
-  return <h1>Home</h1>;
-}
-
-function About() {
-  return <h1>About</h1>;
-}
+import React from 'react';
+import { useRoutes } from 'react-router-dom';
+import routes from './router/routes';
+import Navbar from './components/Navbar'; // 导入 Navbar 组件
 
 function App() {
+  const element = useRoutes(routes);
+
   return (
-    <BrowserRouter>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-          </ul>
-        </nav>
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-
-        <Button type="primary">Ant Design Button</Button>
-      </div>
-    </BrowserRouter>
+    <div>
+      <Navbar /> {/* 使用 Navbar 组件 */}
+      <div className="container">{element}</div>
+    </div>
   );
 }
 
