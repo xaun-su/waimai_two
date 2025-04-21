@@ -5,11 +5,11 @@ import Title from '../../components/Title';
 import { postAccountPassword } from '../../api/account';
 import '@ant-design/v5-patch-for-react-19';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; // 引入 useNavigate 钩子
 
 
 
 const { Option } = Select;
-
 const layout = {
  labelCol: { span: 8 },
  wrapperCol: { span: 16 },
@@ -23,6 +23,7 @@ const AccountEdit: React.FC = () => {
  const [form] = Form.useForm();
  const [showPassword, setShowPassword] = useState(false);
  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+ const navigate = useNavigate();
 
  const togglePasswordVisibility = () => {
    setShowPassword(!showPassword);
@@ -45,6 +46,9 @@ const userId = userInfo.id;
      .then((res) => {
        console.log('返回的数据', res);
        message.success('修改密码成功!'); // 显示成功提示
+       setTimeout(() => {
+        navigate('/login', { replace: true }); // 使用 navigate 替代错误的 navigator
+      }, 500);
      })
      .catch((error) => {
        console.error('修改密码失败:', error);

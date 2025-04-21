@@ -6,12 +6,16 @@ import 'antd/dist/reset.css';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'; // 导入 Provider
 import store from './store/store'; // 导入 Redux store
+import { ConfigProvider } from 'antd';
+import zhCN from 'antd/locale/zh_CN';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={store}> {/* 使用 Provider 组件 */}
+    <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <ConfigProvider locale={zhCN}>
+          <App />
+        </ConfigProvider>
       </BrowserRouter>
     </Provider>
   </StrictMode>,
