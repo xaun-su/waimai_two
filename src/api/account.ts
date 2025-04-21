@@ -19,3 +19,8 @@ export const postAccountAdd = async (data: any): Promise<any> => {
   return await request.post(account_add, data)
 }
 
+// 修改密码
+export const postAccountPassword = async (data: any): Promise<any> => {
+  console.log('postAccountPassword', data)
+  return await request.post(account_password, data)
+}

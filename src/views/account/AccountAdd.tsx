@@ -130,8 +130,8 @@ const AccountAdd: React.FC = () => {
          rules={[{ required: true, message: '请选择用户组!' }]}
        >
          <Select placeholder="请选择权限" allowClear>
-           <Option value="user">普通管理员</Option>
-           <Option value="admin">超级管理员</Option>
+           <Option value="普通管理员">普通管理员</Option>
+           <Option value="超级管理员">超级管理员</Option>
          </Select>
        </Form.Item>
 
