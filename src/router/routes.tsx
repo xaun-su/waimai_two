@@ -27,18 +27,18 @@ export const publicRoutes = [
 // 需要布局的路由
 export const privateRoutes = [
   { path: "/home", element: <Home />, name: '首页' },
-  { path: "/account/list", element: <AccountList />, name: '账号列表' },
-  { path: "/account/add", element: <AccountAdd />, name: '添加账号' },
-  { path: "/account/center", element: <AccountCenter />, name: '个人信息' },
-  { path: "/account/edit", element: <AccountEdit />, name: '修改密码' },
-  { path: "/goods/list", element: <GoodsList />, name: '商品列表' },
-  { path: "/goods/add", element: <GoodsAdd />, name: '添加商品' },
-  { path: "/goods/type", element: <GoodsType />, name: '商品分类' },
-  { path: "/statistics/goods", element: <GoodsStatistics />, name: '商品统计' },
-  { path: "/statistics/order", element: <OrderStatistics />, name: '订单统计' },
-  { path: "/permission/info", element: <PermissionInfo />, name: '权限管理' },
-  { path: "/permission/role", element: <RolePermission />, name: '角色管理' },
-  { path: "/shop/info", element: <ShopInfo />, name: '店铺信息' },
+  { path: "/accountList", element: <AccountList />, name: '账号列表' },
+  { path: "/accountAdd", element: <AccountAdd />, name: '添加账号' },
+  { path: "/accountCenter", element: <AccountCenter />, name: '个人信息' },
+  { path: "/accountEdit", element: <AccountEdit />, name: '修改密码' },
+  { path: "/goodsList", element: <GoodsList />, name: '商品列表' },
+  { path: "/goodsAdd", element: <GoodsAdd />, name: '添加商品' },
+  { path: "/goodsType", element: <GoodsType />, name: '商品分类' },
+  { path: "/statisticsGoods", element: <GoodsStatistics />, name: '商品统计' },
+  { path: "/statisticsOrder", element: <OrderStatistics />, name: '订单统计' },
+  { path: "/permissionInfo", element: <PermissionInfo />, name: '权限管理' },
+  { path: "/permissionRole", element: <RolePermission />, name: '角色管理' },
+  { path: "/shopInfo", element: <ShopInfo />, name: '店铺信息' },
 ];
 
 // 导出所有路由（用于其他地方的引用）
