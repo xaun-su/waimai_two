@@ -27,7 +27,7 @@ const BreadcrumbComponent: React.FC = () => {
 
   const breadcrumbItems = [
     {
-      title: <Link to="/">首页</Link>,
+      title: <Link to="/home">首页</Link>,
       key: 'home',
     },
     ...extraBreadcrumbItems,

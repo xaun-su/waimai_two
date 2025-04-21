@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   } = theme.useToken();
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <SideMenu/>
       </Sider>
