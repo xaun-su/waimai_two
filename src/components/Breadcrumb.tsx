@@ -43,7 +43,6 @@ const BreadcrumbComponent: React.FC = () => {
     });
   }
 
-  // 如果当前路径没有在菜单中找到匹配项（例如 404 页面），面包屑将只显示“首页”
 
   return (
     <Breadcrumb
