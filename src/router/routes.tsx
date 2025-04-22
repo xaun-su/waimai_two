@@ -13,6 +13,7 @@ import OrderStatistics from "../views/statistics/OrderStatistics";
 import PermissionInfo from "../views/permission/PermissionInfo";
 import RolePermission from "../views/permission/RolePermission";
 import ShopInfo from "../views/ShopInfo";
+import GoodsUpdate from "../views/goods/GoodsUpdate";
 
 // 不需要布局的路由（如登录页）
 export const publicRoutes = [
@@ -33,6 +34,7 @@ export const privateRoutes = [
   { path: "/accountEdit", element: <AccountEdit />, name: '修改密码' },
   { path: "/goodsList", element: <GoodsList />, name: '商品列表' },
   { path: "/goodsAdd", element: <GoodsAdd />, name: '添加商品' },
+  { path: "/goodsEdit/:id", element: <GoodsUpdate />, name: '修改商品' },
   { path: "/goodsType", element: <GoodsType />, name: '商品分类' },
   { path: "/statisticsGoods", element: <GoodsStatistics />, name: '商品统计' },
   { path: "/statisticsOrder", element: <OrderStatistics />, name: '订单统计' },

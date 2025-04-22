@@ -38,7 +38,7 @@ const AddProductForm = () => {
       console.log(res.data.categories);
       // 使用索引作为 value - 注意：这会导致提交的 value 是索引而不是分类名称
       const categoryOptions = res.data.categories.map((category, index) => ({
-        value: index, // 使用索引作为 value (唯一的)
+        value: category.cateName, // 使用索引作为 value (唯一的)
         label: category.cateName, // 使用 cateName 作为 label
       }));
       setCateName(categoryOptions);
@@ -68,6 +68,7 @@ const AddProductForm = () => {
   // 处理表单提交
   const onFinish = (values) => {
     console.log('Form fields value before onFinish args:', form.getFieldsValue()); // 添加这行用于验证
+    values.imgUrl = fileList[0].response.imgUrl.split('/').pop();
     console.log('提交的表单数据 ', values); // 验证 price 是否正常
     console.log('Uploaded files:', fileList);
     addGoods(values).then(response => {

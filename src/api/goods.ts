@@ -52,3 +52,21 @@ export const deleteGoodsCategory = async (id: number | string): Promise<any> => 
 
   return await request.get(`${good_cate_del}?id=${id}`);
 };
+
+//获取商品列表
+export const getGoodsList = async (str: string): Promise<any> => {
+  return await request.get(good_list + str);
+};
+
+//删除商品
+export const deleteGoods = async (id: number): Promise<any> => {
+  return await request.get(`${good_del}?id=${id}`)
+}
+
+//获取商品信息
+export const getGoodsDetail = async (id: number): Promise<any> => {
+  return await request.get(`${good_info}?id=${id}`)
+}
+export const updateGoods = async (data: any): Promise<any> => {
+  return await request.post(good_edit, data)
+}
