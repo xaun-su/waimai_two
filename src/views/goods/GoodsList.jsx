@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class GoodsAdd extends Component {
+export default class GoodsList extends Component {
   render() {
     return (
       <div>
