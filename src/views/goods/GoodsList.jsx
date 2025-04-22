@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Space,  Modal,message } from 'antd'; // 导入 Button, Space, message
 import Title from '../../components/Title';
-import Pagination from '../../components/Pagination'; // 假设这是你自己的 Pagination 组件
+import Pagination from '../../components/Pagination'; 
 import { getGoodsList,deleteGoods } from '../../api/goods'; // 导入商品列表 API
 import { baseURL} from '../../api/config';
 import { useNavigate } from 'react-router-dom';

@@ -50,11 +50,7 @@ export const menuItems: MenuItem[] = [
     key: '3',
     icon: <SettingOutlined />,
     label: '订单管理',
-    path: '/statisticsOrder', // 保留父级的 path
-    children: [ // 假设订单管理下也有子菜单
-       { key: '31', label: '订单列表', path: '/orderList' },
-       { key: '32', label: '订单统计', path: '/statisticsOrder' },
-    ]
+    path: '/orderList', 
   },
   {
     key: '4',
