@@ -1,0 +1,60 @@
+// src/components/ShopForm/ShopForm.less
+
+@upload-width: 100px;
+@upload-height: 100px;
+@form-item-label-font-weight: bold;
+@form-item-label-color: #666666; // 深灰色
+@input-number-suffix-margin-left: 8px;
+@input-border-color: #d9d9d9; // 浅灰色
+@input-bg-color: #ffffff; // 白色
+@image-placeholder-width: 150px;
+@image-placeholder-height: 150px;
+
+.styled-upload {
+  .ant-upload-list-picture-card-container {
+    width: @upload-width;
+    height: @upload-height;
+  }
+
+  .ant-upload-list-picture-card .ant-upload-list-item {
+    width: @upload-width;
+    height: @upload-height;
+  }
+
+  .image-placeholder {
+    width: @image-placeholder-width;
+    height: @image-placeholder-height;
+    border: 1px dashed #d9d9d9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+    font-size: 12px;
+  }
+}
+
+.styled-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.styled-checkbox-group {
+  width: 100%;
+}
+
+.styled-form-item-label {
+  font-weight: @form-item-label-font-weight;
+  color: @form-item-label-color;
+}
+
+.styled-input-number-suffix {
+  margin-left: @input-number-suffix-margin-left;
+}
+
+.ant-input,
+.ant-input-number,
+.ant-select-selector {
+  border-color: @input-border-color !important;
+  background-color: @input-bg-color !important; // 设置背景色为白色
+}
