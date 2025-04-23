@@ -9,7 +9,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 type AntdBaseMenuItem = Required<MenuProps>['items'][number];
 
 // 定义我们自己的菜单项类型，它继承了 Ant Design 的基础类型，并添加了 path 和明确的 children 类型
-export interface MenuItem extends AntdBaseMenuItem {
+export interface MenuItem {
+  key: string;
+  icon?: React.ReactNode;
+  label: React.ReactNode;
   path?: string;
   children?: MenuItem[]; // 明确 children 也是 MenuItem 数组
 }

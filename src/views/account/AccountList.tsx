@@ -28,7 +28,7 @@ const App = () => {
       title: '账号', // 列标题
       dataIndex: 'account', // 数据字段名
       key: 'account', // 唯一标识
-      render: text => <a>{text}</a>, // 渲染方式，显示为链接
+      render: (text:string|null) => <a>{text}</a>, // 渲染方式，显示为链接
     },
     {
       title: '用户组',
@@ -43,7 +43,7 @@ const App = () => {
     {
       title: '操作',
       key: 'action', // 操作列
-      render: (_, record) => ( // 渲染操作内容
+      render: (_:any, record:any) => ( // 渲染操作内容
         <Space size="middle">
           {/* *** 修改 "编辑" 链接，添加点击事件，调用 handleEditUser 函数 *** */}
           <a onClick={() => handleEditUser(record)}>编辑</a>
@@ -83,14 +83,14 @@ const App = () => {
   }, [fetchData]); // useEffect 的依赖是 fetchData 函数本身
 
   // 分页变化的回调函数，更新页码和每页显示条数
-  const handlePageChange = (page, size) => {
+  const handlePageChange = (page:number, size:number) => {
     setCurrentPage(page); // 设置当前页码
     setPageSize(size); // 设置每页显示条数
     // 当 currentPage 或 pageSize 变化时，useEffect 会自动触发 fetchData
   };
 
   // 删除用户的函数
-  const handleDeleteUser = async (id) => {
+  const handleDeleteUser = async (id:number) => {
     console.log('删除用户', id);
     try {
       // 调用删除接口
@@ -105,17 +105,18 @@ const App = () => {
   };
 
   // *** 新增函数：处理点击编辑按钮 ***
-  const handleEditUser = (record) => {
+  const handleEditUser = (record:any) => {
     console.log('编辑用户：', record);
     
     setEditingAccount(record); // 将当前行的账号数据存入 state
     setIsModalVisible(true); // 显示模态框
     // 使用 form.setFieldsValue 方法设置表单的初始值
+    console.log('表单初始值：', record.account);
     form.setFieldsValue({
       id: record.id,
       account: record.account,
       userGroup: record.userGroup,
-    });
+    });   
   };
 
   // *** 新增函数：处理模态框的确认按钮点击 ***
@@ -125,8 +126,6 @@ const App = () => {
       const values = await form.validateFields();
       console.log('Updated values:', values);
 
-      // *** 调用更新账号的 API ***
-      // 假设 updateAccount 函数接收账号 id 和更新后的数据
       await updateAccount({
         id: form.getFieldValue('id'),
         ...values,

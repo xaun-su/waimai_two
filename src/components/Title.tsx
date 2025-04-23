@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import './less/title.less';
 
 // 定义 Props 类型

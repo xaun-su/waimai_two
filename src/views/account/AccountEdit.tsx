@@ -33,7 +33,7 @@ const AccountEdit: React.FC = () => {
    setShowConfirmPassword(!showConfirmPassword);
  };
 // 获取用户ID
-const userInfo = useSelector((state) => state.user.userInfo);
+const userInfo = useSelector((state:any) => state.user.userInfo);
 const userId = userInfo.id;
  const onFinish = (values: any) => {
    console.log('提交的用户数据:', values);

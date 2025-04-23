@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -16,6 +16,13 @@ const Home: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  //  动态调整 Content 的 left 值
+  const [contentLeft, setContentLeft] = useState(200);
+
+  useEffect(() => {
+    setContentLeft(collapsed ? 80 : 200);
+  }, [collapsed]);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -42,12 +49,9 @@ const Home: React.FC = () => {
           <Breadcrumb/>
         </Header>
         <Content
+          className={`site-layout-content-fixed ${collapsed ? 'sider-collapsed' : ''}`}
           style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
+            /*  移除原有的 style 属性，样式已在 Less 文件中定义 */
           }}
         >
           {/* 子路由渲染组件 */}

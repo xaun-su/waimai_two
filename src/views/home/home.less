@@ -12,3 +12,30 @@
   width: 200px;
   // height: 100%;
 }
+
+.site-layout-content-fixed {
+  position: fixed;
+  top: 88px; /*  Header 的高度 */
+  left: 200px; /* Sider 的宽度，如果 Sider 可折叠，需要动态调整 */
+  right: 0;
+  bottom: 0;
+  overflow: auto; /*  如果内容超出 Content 区域，则显示滚动条 */
+  margin: 24px 16px;
+  padding: 24px;
+  background: white; /*  或者 colorBgContainer，取决于你的主题 */
+  border-radius: 16px; /*  或者 borderRadiusLG，取决于你的主题 */
+  z-index: 1; /* 确保 Content 在其他元素之上 */
+
+  /* 隐藏滚动条 */
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+/*  当 Sider 折叠时，调整 Content 的 left 值 */
+.site-layout-content-fixed.sider-collapsed {
+  left: 80px; /*  Sider 折叠后的宽度 */
+}

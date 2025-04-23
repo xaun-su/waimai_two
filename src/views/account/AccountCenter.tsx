@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'; // 引入 Hooks
+import { useState, useEffect, useCallback } from 'react'; // 引入 Hooks
 import { Card, Descriptions, Image, Spin, Upload, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons'; // 引入 Ant Design Icon
 import Title from '../../components/Title'; // 假设 Title 组件路径正确
