@@ -8,6 +8,7 @@ import './home.less';
 import Breadcrumb from '../../components/Breadcrumb';
 import { Outlet } from 'react-router-dom';
 import SideMenu from '../../components/SideMenu';
+import OutLogin from '../../components/OutLogin';
 
 const { Header, Sider, Content } = Layout;
 
@@ -47,6 +48,7 @@ const Home: React.FC = () => {
             }}
           />
           <Breadcrumb/>
+          <OutLogin/>
         </Header>
         <Content
           className={`site-layout-content-fixed ${collapsed ? 'sider-collapsed' : ''}`}
