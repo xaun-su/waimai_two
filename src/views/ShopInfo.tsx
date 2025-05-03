@@ -183,62 +183,63 @@ const FormDisabledDemo: React.FC = () => {
       // avatar 需要提取 url 的最后部分（图片名）
       // 加上一些基本的安全检查
       avatar: values.avatar && Array.isArray(values.avatar) && values.avatar[0] && values.avatar[0].url
-              ? values.avatar[0].url.split('/').pop()
-              : '',
+        ? values.avatar[0].url.split('/').pop()
+        : '',
 
       // *** 修改点：使用 frontendToBackendMap 将前端 value 转换为后端名称 ***
       // 加上一些基本的安全检查
       supports: JSON.stringify(values.supports && Array.isArray(values.supports)
-                ? values.supports.map((value: string) => frontendToBackendMap[value]).filter(mappedValue => mappedValue !== undefined) // 过滤掉未映射到的值
-                : []),
+        ? values.supports.map((value: string) => frontendToBackendMap[value]).filter((mappedValue: undefined) => mappedValue !== undefined) // 过滤掉未映射到的值
+        : []),
 
       // pics 需要提取每个 item 的 url 的最后部分（图片名）
       // 加上一些基本的安全检查
       pics: JSON.stringify(values.pics && Array.isArray(values.pics)
-            ? values.pics.map((item: any) => {
-                // 检查 item 是否有 url 属性，并且 url 是字符串
-                if (item && typeof item.url === 'string') {
-                   return item.url.split('/').pop();
-                }
-                // 如果 item 或 url 不存在/无效，返回空字符串或根据需要处理
-                return '';
-              }).filter(picName => picName !== '') // 过滤掉空的图片名
-            : []),
+        ? values.pics.map((item: any) => {
+          // 检查 item 是否有 url 属性，并且 url 是字符串
+          if (item && typeof item.url === 'string') {
+            return item.url.split('/').pop();
+          }
+          // 如果 item 或 url 不存在/无效，返回空字符串或根据需要处理
+          return '';
+        }).filter((picName: string) => picName !== '') // 过滤掉空的图片名
+        : []),
 
       // *** 修改点：date 需要将 Moment 对象数组转换为格式化后的日期字符串数组 ***
       // API 示例格式是 "YYYY-MM-DD HH:mm:ss"
-      date:JSON.stringify( values.date && Array.isArray(values.date)
-            ? values.date.map((momentObj: any) => {
-                // 检查 momentObj 是否是有效的 Moment 对象
-                if (momentObj && typeof momentObj.format === 'function') {
-                    return momentObj.format('YYYY-MM-DD HH:mm:ss');
-                }
-                // 如果不是有效的 Moment 对象，返回空字符串或根据需要处理错误
-                return '';
-            }).filter(dateString => dateString !== '') // 过滤掉空的日期字符串
-            : []), // 如果 values.date 不是数组或不存在，则返回空数组
+      date: JSON.stringify(values.date && Array.isArray(values.date)
+        ? values.date.map((momentObj: any) => {
+          // 检查 momentObj 是否是有效的 Moment 对象
+          if (momentObj && typeof momentObj.format === 'function') {
+            return momentObj.format('YYYY-MM-DD HH:mm:ss');
+          }
+          // 如果不是有效的 Moment 对象，返回空字符串或根据需要处理错误
+          return '';
+        }).filter((dateString: string) => dateString !== '') // 过滤掉空的日期字符串
+        : []), // 如果 values.date 不是数组或不存在，则返回空数组
     };
 
     console.log('要提交的数据', data);
 
     // 在这里调用 postShopInfo API 发送 data
     try {
-        const response = await postShopInfo(data);
-        console.log('提交成功:', response);
-        message.success('店铺信息保存成功');
-        // 可能需要根据后端响应做进一步处理，例如刷新数据
-        // fetchData(); // 如果需要保存后立即刷新表单数据
+      const response = await postShopInfo(data);
+      console.log('提交成功:', response);
+      message.success('店铺信息保存成功');
+      // 可能需要根据后端响应做进一步处理，例如刷新数据
+      // fetchData(); // 如果需要保存后立即刷新表单数据
     } catch (error) {
-        console.error('提交失败:', error);
-        message.error('店铺信息保存失败');
-        // 处理提交失败的情况
+      console.error('提交失败:', error);
+      message.error('店铺信息保存失败');
+      // 处理提交失败的情况
     }
   };
 
   return (
     <div className="shop-info">
-      <Title className="styled-title" left="店铺管理" right={<Button type="primary" onClick={() => PushShop(form.getFieldsValue())}>保存店铺信息</Button>} />
-      <Form
+      <div className="styled-title">
+        <Title left="店铺管理" right={<Button type="primary" onClick={() => PushShop(form.getFieldsValue())}>保存店铺信息</Button>} />
+      </div>      <Form
         form={form} // 绑定 form 实例
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
@@ -248,7 +249,7 @@ const FormDisabledDemo: React.FC = () => {
         {/* *** 修改点：添加一个隐藏的 Form.Item 用于 id *** */}
         {/* 这确保 id 被 Ant Design Form 管理，并能通过 getFieldsValue 获取 */}
         <Form.Item name="id" hidden>
-           <Input type="hidden" /> {/* 可以是任何隐藏的输入控件 */}
+          <Input type="hidden" /> {/* 可以是任何隐藏的输入控件 */}
         </Form.Item>
 
         {/* Form.Item name 与后端字段名一致 */}

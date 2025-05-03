@@ -187,13 +187,13 @@ const EditProductForm: React.FC = () => { // 将组件名改为 EditProductForm 
          return;
      }
 
-    const submitData = {
-        name: values.name,
-        category: values.category,
-        price: values.price,
-        imgUrl: imageUrl,
-        goodsDesc: values.goodsDesc,
-    };
+     const submitData = {
+      name: values.name,
+      category: values.category,
+      price: values.price,
+      imgUrl: imageUrl,
+      goodsDesc: values.goodsDesc,
+      id: id ? parseInt(id, 10) : 0,  };
 
     if (id) {
         submitData.id = parseInt(id, 10);

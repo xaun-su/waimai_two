@@ -36,7 +36,7 @@ const DemoLine: React.FC = () => {
             Array.isArray(apiData.date) &&
             apiData.source &&
             Array.isArray(apiData.source) &&
-            apiData.source.every(series => Array.isArray(series.data) && series.data.length === apiData.date.length) // 检查每个系列的data数组长度与date数组一致
+            apiData.source.every((series: { data: string | any[]; }) => Array.isArray(series.data) && series.data.length === apiData.date.length) // 检查每个系列的data数组长度与date数组一致
           ) {
             // 进行数据转换
             const transformedData: ChartDataItem[] = [];
@@ -44,9 +44,9 @@ const DemoLine: React.FC = () => {
             const seriesList = apiData.source; // 获取系列数据数组
 
             // 遍历周标签（x轴）
-            weeks.forEach((week, weekIndex) => {
+            weeks.forEach((week:any, weekIndex:any) => {
               // 对于每一周，遍历所有系列
-              seriesList.forEach(series => {
+              seriesList.forEach((series: { data: { [x: string]: any; }; type: any; }) => {
                 // 添加数据点
                 transformedData.push({
                   week: week, // 使用周标签作为 xField
