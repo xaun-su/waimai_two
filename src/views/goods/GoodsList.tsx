@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Space, Modal, message, Pagination as AntdPagination } from 'antd';
+import { Table, Button, Space, Modal, message} from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import Title from '../../components/Title';
 import Pagination from '../../components/Pagination';

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Dropdown, Menu, Avatar } from 'antd';
+import  { useEffect, useState } from 'react';
+import { Dropdown, Avatar } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import './less/outlogin.less';
 import { useNavigate } from 'react-router-dom';

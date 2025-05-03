@@ -11,7 +11,7 @@ import {
   InputNumber
 } from 'antd';
 // 导入 ColumnType 和 ColumnGroupType 以便在 mergedColumns 中进行类型检查
-import { ColumnsType, ColumnType, ColumnGroupType } from 'antd/es/table';
+import { ColumnsType, ColumnType } from 'antd/es/table';
 import Title from '../../components/Title';
 import Pagination from '../../components/Pagination';
 import {

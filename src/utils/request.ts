@@ -1,9 +1,7 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError, InternalAxiosRequestConfig, AxiosHeaders } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, AxiosError, InternalAxiosRequestConfig, AxiosHeaders } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'; // 导入 useSelector
 import { message } from 'antd';
 import { baseURL } from '../api/config';
-import { useEffect } from 'react';
 import store from '../store/store'; // 导入 Redux store
 
 // 定义响应数据类型

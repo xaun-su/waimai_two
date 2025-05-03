@@ -43,7 +43,6 @@ interface CategoryOption {
 const AddProductForm: React.FC = () => {
  const [form] = Form.useForm<FormValues>();
  const [fileList, setFileList] = useState<UploadFile[]>([]);
- const [uploading, setUploading] = useState<boolean>(false);
  const [cateName, setCateName] = useState<CategoryOption[]>([]);
 
  useEffect(() => {
@@ -90,10 +89,10 @@ const AddProductForm: React.FC = () => {
    console.log('提交的表单数据 ', values);
    console.log('Uploaded files:', fileList);
    addGoods(values)
-     .then((response: any) => {
+     .then(() => {
        message.success('添加成功!');
      })
-     .catch((error: any) => {
+     .catch(() => {
        message.error('添加失败!');
      });
  };

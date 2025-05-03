@@ -66,7 +66,6 @@ const frontendToBackendMap: { [key: string]: string } = {
 
 
 const FormDisabledDemo: React.FC = () => {
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
   const [form] = Form.useForm(); // 获取 form 实例
   const avatarUploadRef = useRef<any>(null);
   const imagesUploadRef = useRef<any>(null);

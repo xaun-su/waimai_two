@@ -5,8 +5,6 @@ import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-// 定义 Ant Design Menu items 数组中单个元素的原始类型
-type AntdBaseMenuItem = Required<MenuProps>['items'][number];
 
 // 定义我们自己的菜单项类型，它继承了 Ant Design 的基础类型，并添加了 path 和明确的 children 类型
 export interface MenuItem {
@@ -84,30 +82,27 @@ export const menuItems: MenuItem[] = [
 ];
 
 
-interface LevelKeysProps {
-  key?: string;
-  children?: LevelKeysProps[];
-  path?: string;
-}
+// interface LevelKeysProps {
+//   key?: string;
+//   children?: LevelKeysProps[];
+//   path?: string;
+// }
 
-const getLevelKeys = (items1: LevelKeysProps[]) => {
-  const key: Record<string, number> = {};
-  const func = (items2: LevelKeysProps[], level = 1) => {
-    items2.forEach((item) => {
-      if (item.key) {
-        key[item.key] = level;
-      }
-      if (item.children) {
-        func(item.children, level + 1);
-      }
-    });
-  };
-  func(items1);
-  return key;
-};
-
-const levelKeys = getLevelKeys(menuItems as LevelKeysProps[]);
-
+// const getLevelKeys = (items1: LevelKeysProps[]) => {
+//   const key: Record<string, number> = {};
+//   const func = (items2: LevelKeysProps[], level = 1) => {
+//     items2.forEach((item) => {
+//       if (item.key) {
+//         key[item.key] = level;
+//       }
+//       if (item.children) {
+//         func(item.children, level + 1);
+//       }
+//     });
+//   };
+//   func(items1);
+//   return key;
+// };
 
 // 新增辅助函数：根据路径在菜单结构中查找对应的“最深层”菜单项及其所有父级菜单项
 // 返回一个数组，表示从根到目标项的完整路径 (包含所有父级和目标项)

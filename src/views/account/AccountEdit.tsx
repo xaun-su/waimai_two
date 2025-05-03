@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Select, Space, message } from 'antd';
+import { Button, Form, Input, Space, message } from 'antd';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import Title from '../../components/Title';
 import { postAccountPassword } from '../../api/account';
@@ -7,9 +7,6 @@ import '@ant-design/v5-patch-for-react-19';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'; // 引入 useNavigate 钩子
 
-
-
-const { Option } = Select;
 const layout = {
  labelCol: { span: 8 },
  wrapperCol: { span: 16 },

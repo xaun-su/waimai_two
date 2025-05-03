@@ -8,7 +8,7 @@ export const order_update = '/order/edit'
 export const getOrderList = async (params: any): Promise<any> => {
   // 过滤掉值为 undefined 的参数
   const filteredParams = Object.fromEntries(
-    Object.entries(params).filter(([key, value]) => value !== undefined)
+    Object.entries(params).filter(([value]) => value !== undefined)
   );
 
   // 将参数转换为 URL 查询字符串

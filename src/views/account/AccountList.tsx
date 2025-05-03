@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import  { useState, useEffect, useCallback } from 'react';
 // 引入 Modal, Form, Input, Select 组件
 import { Space, Table, message, Modal, Form, Input, Select } from 'antd';
 import Pagination from '../../components/Pagination';
@@ -17,7 +17,7 @@ const App = () => {
 
   // *** 新增状态用于控制编辑模态框的显示和存储当前编辑的账号信息 ***
   const [isModalVisible, setIsModalVisible] = useState(false); // 控制模态框显示/隐藏
-  const [editingAccount, setEditingAccount] = useState(null); // 存储当前正在编辑的账号数据
+  // const [editingAccount, setEditingAccount] = useState(null); // 存储当前正在编辑的账号数据
 
   // *** 使用 Ant Design 的 Form hook 来管理表单状态 ***
   const [form] = Form.useForm();
@@ -108,7 +108,7 @@ const App = () => {
   const handleEditUser = (record:any) => {
     console.log('编辑用户：', record);
     
-    setEditingAccount(record); // 将当前行的账号数据存入 state
+    // setEditingAccount(record); // 将当前行的账号数据存入 state
     setIsModalVisible(true); // 显示模态框
     // 使用 form.setFieldsValue 方法设置表单的初始值
     console.log('表单初始值：', record.account);
@@ -133,7 +133,7 @@ const App = () => {
 
       message.success('更新成功');
       setIsModalVisible(false); // 关闭模态框
-      setEditingAccount(null); // 清空编辑状态
+      // setEditingAccount(null); // 清空编辑状态
       form.resetFields(); // 重置表单字段
       fetchData(); // 重新获取数据刷新列表
 
@@ -146,7 +146,7 @@ const App = () => {
   // *** 新增函数：处理模态框的取消按钮点击或关闭 ***
   const handleModalCancel = () => {
     setIsModalVisible(false); // 关闭模态框
-    setEditingAccount(null); // 清空编辑状态
+    // setEditingAccount(null); // 清空编辑状态
     form.resetFields(); // 重置表单字段
   };
 

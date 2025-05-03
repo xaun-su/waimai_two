@@ -15,11 +15,11 @@ const { Header, Sider, Content } = Layout;
 const LoginHome: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer },
   } = theme.useToken();
 
   //  动态调整 Content 的 left 值
-  const [contentLeft, setContentLeft] = useState(200);
+  const [, setContentLeft] = useState(200);
 
   useEffect(() => {
     setContentLeft(collapsed ? 80 : 200);

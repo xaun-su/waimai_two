@@ -12,7 +12,6 @@ import {
   Modal,
 } from 'antd';
 import Title from '../components/Title';
-import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import Pagination from '../components/Pagination';
 import { getOrderList, getOrderDetail, updateOrder } from '../api/orderlist';
@@ -53,8 +52,6 @@ interface Pagination {
 
 const OrderList: React.FC = () => {
   const [form] = Form.useForm();
-  const navigate = useNavigate();
-
   const [orderList, setOrderList] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [pagination, setPagination] = useState<Pagination>({

@@ -1,6 +1,6 @@
 // App.js
 
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 // 确保路径正确，根据你的项目结构调整
 import { publicRoutes, privateRoutes } from './router/routes';
 import LoginHome from './views/home/LoginHome'; // 确保路径正确

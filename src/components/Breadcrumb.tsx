@@ -3,7 +3,7 @@ import React from 'react';
 import { Breadcrumb } from 'antd';
 import { useLocation, Link } from 'react-router-dom';
 // 从 SideMenu.tsx 文件中导入 menuItems, MenuItem 类型 和 findDeepestMenuItemPath 辅助函数
-import { menuItems, MenuItem, findDeepestMenuItemPath } from './SideMenu'; // 请根据您的实际文件路径调整导入路径
+import { menuItems, findDeepestMenuItemPath } from './SideMenu'; // 请根据您的实际文件路径调整导入路径
 
 const BreadcrumbComponent: React.FC = () => {
   const location = useLocation();
