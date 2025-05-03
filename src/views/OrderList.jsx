@@ -285,8 +285,6 @@ const OrderList = () => {
           dataSource={orderList}
           // 禁用 Table 内置的分页
           pagination={false}
-          // 如果需要处理排序和过滤，可以在这里添加 onChange，但要确保它不影响分页状态
-          // onChange={(pagination, filters, sorter) => { /* 处理排序过滤 */ }}
         />
       </Spin>
 

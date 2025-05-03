@@ -12,7 +12,7 @@ import OutLogin from '../../components/OutLogin';
 
 const { Header, Sider, Content } = Layout;
 
-const Home: React.FC = () => {
+const LoginHome: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -64,4 +64,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default LoginHome;

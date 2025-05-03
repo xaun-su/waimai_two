@@ -15,7 +15,7 @@ import {
 import Title from '../components/Title';
 import moment from 'moment'; // 确保您安装了 moment.js 或 dayjs，并根据您的 Ant Design 版本选择正确的导入
 import './shopinfo.less'; // 引入 Less 文件
-import {getOrderInfo, baseURL ,shop_upload_img} from '../api/config' // 确保 baseURL 也被导入
+import { getOrderInfo, baseURL, shop_upload_img, postShopInfo } from '../api/config' // 确保 baseURL 也被导入
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -40,6 +40,30 @@ const beforeUpload = (file: any) => {
   return isJpgOrPng && isLt2M;
 };
 
+// 定义活动映射：后端名称 -> 前端 Value
+const backendToFrontendMap: { [key: string]: string } = {
+  '单人精彩套餐': 'single',
+  'VC无限橙果汁全场8折': 'vc',
+  '在线支付满28减5': 'online',
+  '特价饮品八折抢购': 'discount',
+  '中秋特惠': 'midAutumn',
+  '国庆特价': 'nationalDay',
+  '春节1折折扣': 'springFestival',
+  // 请根据您的实际活动类型和 Checkbox options 完善这个映射
+};
+
+// 定义活动映射：前端 Value -> 后端名称 (用于构建提交数据)
+const frontendToBackendMap: { [key: string]: string } = {
+  'single': '单人精彩套餐',
+  'vc': 'VC无限橙果汁全场8折',
+  'online': '在线支付满28减5',
+  'discount': '特价饮品八折抢购',
+  'midAutumn': '中秋特惠',
+  'nationalDay': '国庆特价',
+  'springFestival': '春节1折折扣',
+  // 请根据您的实际活动类型和 Checkbox options 完善这个映射
+};
+
 
 const FormDisabledDemo: React.FC = () => {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
@@ -50,17 +74,6 @@ const FormDisabledDemo: React.FC = () => {
   const [avatarFileList, setAvatarFileList] = useState<any[]>([]);
   const [shopImagesFileList, setShopImagesFileList] = useState<any[]>([]);
 
-  // 将后端返回的活动名称映射到前端 Checkbox 的 value
-  // 请根据您的 Checkbox options 和后端 supports 数组的值来完善这个映射
-  const activityMap: { [key: string]: string } = {
-    '单人精彩套餐': 'single',
-    'VC无限橙果汁全场8折': 'vc', // 假设有这个活动，根据您的 options 补充
-    '在线支付满28减5': 'online',
-    '特价饮品八折抢购': 'discount',
-    '中秋特惠': 'midAutumn', // 假设有这个活动
-    '国庆特价': 'nationalDay', // 假设有这个活动
-    '春节1折折扣': 'springFestival',
-  };
 
   // 获取店铺数据并填充表单
   const fetchData = async () => {
@@ -77,10 +90,12 @@ const FormDisabledDemo: React.FC = () => {
         id: shopData.id, // 如果需要填充 ID
         name: shopData.name,
         bulletin: shopData.bulletin,
+        // *** 修改点：将后端 deliveryPrice 映射到前端 Form.Item name="deliveryPrice" ***
         deliveryPrice: shopData.deliveryPrice,
         deliveryTime: shopData.deliveryTime,
         description: shopData.description, // 与后端字段名一致
-        minPrice: shopData.minPrice,
+        // *** 移除或忽略 minPrice 的填充，因为它在 Form 中可能没有对应的字段或者含义冲突 ***
+        // minPrice: shopData.minPrice, // 根据 API 和 Form 设计决定是否需要此行
         score: shopData.score, // 与后端字段名一致
         sellCount: shopData.sellCount, // 与后端字段名一致
 
@@ -103,12 +118,13 @@ const FormDisabledDemo: React.FC = () => {
         })) : [],
 
         // 转换活动支持 (supports) - 与后端字段名一致
-        supports: shopData.supports ? shopData.supports
-          .map((supportName: string) => activityMap[supportName]) // 将中文名称映射为 value
+        // *** 修改点：使用 backendToFrontendMap 将后端名称转换为前端 value ***
+        supports: shopData.supports && Array.isArray(shopData.supports) ? shopData.supports
+          .map((supportName: string) => backendToFrontendMap[supportName]) // 将后端名称映射为前端 value
           .filter((value: string | undefined) => value !== undefined) // 过滤掉没有映射到的活动
           : [],
 
-        date: shopData.date && shopData.date.length === 2 ? [
+        date: shopData.date && Array.isArray(shopData.date) && shopData.date.length === 2 ? [
           moment(shopData.date[0]), // 使用 moment 解析第一个时间字符串
           moment(shopData.date[1]), // 使用 moment 解析第二个时间字符串
         ] : undefined, //
@@ -145,30 +161,83 @@ const FormDisabledDemo: React.FC = () => {
     setShopImagesFileList(fileList);
     // 当文件列表改变时，Form 会自动更新对应的字段 (pics) 的值
   };
-const PushShop = async (values: any) => {
+
+  const PushShop = async (values: any) => {
     console.log("表单值：", values);
-    const data={
-      id:values.id,//
-      name:values.name,//
-      bulletin:values.bulletin,//
-      deliveryPrice:values.deliveryPrice,//
-      deliveryTime:values.deliveryTime,//
-      description:values.description,//
-      minPrice:values.minPrice,//
-      score:values.score,//
-      sellCount:values.sellCount,//
-      avatar:values.avatar[0].url.split('/').pop(),//
-      date:values.date,
-      supports:values.supports.map((value: string) => activityMap[value]),
-      pics:values.pics.map(item=> item.url.split('/').pop()),
-    }
+
+    // 确保 frontendToBackendMap 已经定义并包含正确的映射
+    // 这里为了方便，直接在函数外部定义了 frontendToBackendMap
+
+    const data = {
+      // *** 修改点：从 values 中获取 id ***
+      id: values.id, // 正确获取 id，前提是 Form.Item name="id" 存在
+
+      name: values.name, // name 直接使用
+      bulletin: values.bulletin, // bulletin 直接使用
+      deliveryPrice: values.deliveryPrice, // 现在 Form.Item 的 name 是 deliveryPrice，这里就能正确获取了
+      deliveryTime: values.deliveryTime, // deliveryTime 直接使用
+      description: values.description, // description 直接使用
+      score: values.score, // score 直接使用
+      sellCount: values.sellCount, // sellCount 直接使用
+
+      // avatar 需要提取 url 的最后部分（图片名）
+      // 加上一些基本的安全检查
+      avatar: values.avatar && Array.isArray(values.avatar) && values.avatar[0] && values.avatar[0].url
+              ? values.avatar[0].url.split('/').pop()
+              : '',
+
+      // *** 修改点：使用 frontendToBackendMap 将前端 value 转换为后端名称 ***
+      // 加上一些基本的安全检查
+      supports: JSON.stringify(values.supports && Array.isArray(values.supports)
+                ? values.supports.map((value: string) => frontendToBackendMap[value]).filter(mappedValue => mappedValue !== undefined) // 过滤掉未映射到的值
+                : []),
+
+      // pics 需要提取每个 item 的 url 的最后部分（图片名）
+      // 加上一些基本的安全检查
+      pics: JSON.stringify(values.pics && Array.isArray(values.pics)
+            ? values.pics.map((item: any) => {
+                // 检查 item 是否有 url 属性，并且 url 是字符串
+                if (item && typeof item.url === 'string') {
+                   return item.url.split('/').pop();
+                }
+                // 如果 item 或 url 不存在/无效，返回空字符串或根据需要处理
+                return '';
+              }).filter(picName => picName !== '') // 过滤掉空的图片名
+            : []),
+
+      // *** 修改点：date 需要将 Moment 对象数组转换为格式化后的日期字符串数组 ***
+      // API 示例格式是 "YYYY-MM-DD HH:mm:ss"
+      date:JSON.stringify( values.date && Array.isArray(values.date)
+            ? values.date.map((momentObj: any) => {
+                // 检查 momentObj 是否是有效的 Moment 对象
+                if (momentObj && typeof momentObj.format === 'function') {
+                    return momentObj.format('YYYY-MM-DD HH:mm:ss');
+                }
+                // 如果不是有效的 Moment 对象，返回空字符串或根据需要处理错误
+                return '';
+            }).filter(dateString => dateString !== '') // 过滤掉空的日期字符串
+            : []), // 如果 values.date 不是数组或不存在，则返回空数组
+    };
+
     console.log('要提交的数据', data);
-    
-}
+
+    // 在这里调用 postShopInfo API 发送 data
+    try {
+        const response = await postShopInfo(data);
+        console.log('提交成功:', response);
+        message.success('店铺信息保存成功');
+        // 可能需要根据后端响应做进一步处理，例如刷新数据
+        // fetchData(); // 如果需要保存后立即刷新表单数据
+    } catch (error) {
+        console.error('提交失败:', error);
+        message.error('店铺信息保存失败');
+        // 处理提交失败的情况
+    }
+  };
 
   return (
     <div className="shop-info">
-      <Title className="styled-title" left="店铺管理" right={<Button type="primary" onClick={()=>PushShop(form.getFieldsValue())}>保存店铺信息</Button>} />
+      <Title className="styled-title" left="店铺管理" right={<Button type="primary" onClick={() => PushShop(form.getFieldsValue())}>保存店铺信息</Button>} />
       <Form
         form={form} // 绑定 form 实例
         labelCol={{ span: 4 }}
@@ -176,8 +245,14 @@ const PushShop = async (values: any) => {
         layout="horizontal"
         style={{ maxWidth: 800 }}
       >
+        {/* *** 修改点：添加一个隐藏的 Form.Item 用于 id *** */}
+        {/* 这确保 id 被 Ant Design Form 管理，并能通过 getFieldsValue 获取 */}
+        <Form.Item name="id" hidden>
+           <Input type="hidden" /> {/* 可以是任何隐藏的输入控件 */}
+        </Form.Item>
+
         {/* Form.Item name 与后端字段名一致 */}
-         <Form.Item label={<div className="styled-form-item-label">店铺名称</div>} name="name">
+        <Form.Item label={<div className="styled-form-item-label">店铺名称</div>} name="name">
           <Input />
         </Form.Item>
         <Form.Item label={<div className="styled-form-item-label">店铺公告</div>} name="bulletin">
@@ -187,7 +262,7 @@ const PushShop = async (values: any) => {
         <Form.Item label={<div className="styled-form-item-label">店铺头像</div>} name="avatar" valuePropName="fileList" getValueFromEvent={normFile}>
           <Upload
             className="styled-upload"
-            action={shop_upload_img} 
+            action={shop_upload_img}
             listType="picture-card"
             maxCount={1}
             showUploadList={{ showPreviewIcon: true, showRemoveIcon: true }}
@@ -204,7 +279,7 @@ const PushShop = async (values: any) => {
             )}
           </Upload>
         </Form.Item>
-         {/* Upload 组件 name 改为 pics */}
+        {/* Upload 组件 name 改为 pics */}
         <Form.Item label={<div className="styled-form-item-label">店铺图片</div>} name="pics" valuePropName="fileList" getValueFromEvent={normFile}>
           <Upload
             className="styled-upload"
@@ -224,42 +299,43 @@ const PushShop = async (values: any) => {
             )}
           </Upload>
         </Form.Item>
-        <Form.Item label={<div className="styled-form-item-label">起送价格</div>} name="minPrice">
+        {/* *** 修改点：将 name 从 minPrice 改为 deliveryPrice *** */}
+        <Form.Item label={<div className="styled-form-item-label">起送价格</div>} name="deliveryPrice">
           <InputNumber style={{ width: '100%' }} />
         </Form.Item>
         <Form.Item label={<div className="styled-form-item-label">送达时间</div>} name="deliveryTime">
           <InputNumber style={{ width: '100%' }} />
         </Form.Item>
-         {/* Input 组件 name 改为 description */}
+        {/* Input 组件 name 改为 description */}
         <Form.Item label={<div className="styled-form-item-label">配送描述</div>} name="description">
           <Input />
         </Form.Item>
         <Form.Item label={<div className="styled-form-item-label">店铺好评率</div>} name="score">
-            <InputNumber style={{ width: '100%' }} />
+          <InputNumber style={{ width: '100%' }} />
         </Form.Item>
         <Form.Item label={<div className="styled-form-item-label">店铺销量</div>} name="sellCount">
           <InputNumber style={{ width: '100%' }} />
         </Form.Item>
-         {/* Checkbox.Group 组件 name 改为 supports */}
+        {/* Checkbox.Group 组件 name 改为 supports */}
         <Form.Item label={<div className="styled-form-item-label">活动支持</div>} name="supports">
           <Checkbox.Group className="styled-checkbox-group" options={[
             { label: '单人精彩套餐', value: 'single' },
-            { label: 'VC无限橙果汁全场8折', value: 'vc' }, // 请确保这里的 value 与 activityMap 中的 key 对应
+            { label: 'VC无限橙果汁全场8折', value: 'vc' }, // 请确保这里的 value 与 frontendToBackendMap 中的 key 对应
             { label: '在线支付满28减5', value: 'online' },
             { label: '特价饮品八折抢购', value: 'discount' },
-            { label: '中秋特惠', value: 'midAutumn' }, // 请确保这里的 value 与 activityMap 中的 key 对应
-            { label: '国庆特价', value: 'nationalDay' }, // 请确保这里的 value 与 activityMap 中的 key 对应
+            { label: '中秋特惠', value: 'midAutumn' }, // 请确保这里的 value 与 frontendToBackendMap 中的 key 对应
+            { label: '国庆特价', value: 'nationalDay' }, // 请确保这里的 value 与 frontendToBackendMap 中的 key 对应
             { label: '春节1折折扣', value: 'springFestival' },
           ]} />
         </Form.Item>
         <Form.Item label={<div className="styled-form-item-label">营业时间</div>} name="date">
           <RangePicker
-    showTime
-    format="YYYY-MM-DD HH:mm:ss"
-    onChange={(dates, dateStrings) => {
-      console.log('RangePicker onChange:', dates, dateStrings);
-    }}
-  />
+            showTime
+            format="YYYY-MM-DD HH:mm:ss"
+            onChange={(dates, dateStrings) => {
+              console.log('RangePicker onChange:', dates, dateStrings);
+            }}
+          />
         </Form.Item>
       </Form>
     </div>
